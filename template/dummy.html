@@ -23,8 +23,9 @@
         <a href="{% url 'change_password' %}" class="nav-link">change_password</a>
         <a href="{% url 'forget_password' %}" class="nav-link">forget_password</a>
         {% if user.is.authenticate %}
-        
+      <a href="{% url 'user_logout' %}" class="nav-link">user_logout</a>
       {% else %}
+      <a href="{% url 'user_login' %}" class="nav-link">user_login</a>
 
       {% endif %}
     
