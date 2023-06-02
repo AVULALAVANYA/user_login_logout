@@ -6,6 +6,8 @@ from app.forms import *
 from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate,login,logout
 from django.urls import reverse
+from django.core.mail import send_mail
+from django.contrib.auth.decorators import login_required
 
 def home(request):
     return render(request,'home.html')
@@ -29,9 +31,16 @@ def registration(request):
             NSPO=pfd.save(commit=False)
             NSPO.username=NSUO
             NSPO.save()
+            send_mail('Registratioon',
+                      "Succefully Registration is Done",
+                      'lavanyah753@gmail.com',
+                      [NSUO.email],
+                      fail_silently=False
+
+                      )
 
 
-            return HttpResponse('Regsitration is Susssessfulll')
+            return HttpResponse('mail send Susssessfulll')
         else:
             return HttpResponse('Not valid')
     return render(request,'registration.html',d)
@@ -74,6 +83,7 @@ def user_login(request):
             return HttpResponse('Invalid username or password') 
         
     return render(request,'user_login.html')
+@login_required
 def user_logout(request):
     logout(request)
     return HttpResponseRedirect(reverse('home'))
